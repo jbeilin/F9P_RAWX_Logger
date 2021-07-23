@@ -1,5 +1,3 @@
-/*TEST C'EST UN TEST !*/
-
 // RAWX_Logger_F9P
 
 // Logs RXM-RAWX, RXM-SFRBX and TIM-TM2 data from u-blox ZED_F9P GNSS to SD card

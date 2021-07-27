@@ -1091,8 +1091,25 @@ void loop() // run over and over again
       }
       // if the file isn't open, pop up an error:
       else {
+        /* CORRECTION 1 */
+        int compt = 0;
+        while (compt < 5)
+        {
         Serial.println("Panic!! Error opening RAWX file!");
-        Serial.println("Waiting for reset...");
+        if (rawx_dataFile.open(rawx_filename, O_CREAT | O_WRITE | O_EXCL)) {
+           Serial.print("Logging to ");
+           Serial.println(rawx_filename);
+           compt = 999;
+        }
+        compt ++;
+        }
+        if (compt == 5)
+        {
+        Serial.println("Occurent error ! Waiting for reset...");
+        }
+      
+        /* FIN CORRECTION 1 */
+      
 #ifndef NoLED
 #ifdef NeoPixel
       setLED(red); // Set the NeoPixel to red to indicate a problem

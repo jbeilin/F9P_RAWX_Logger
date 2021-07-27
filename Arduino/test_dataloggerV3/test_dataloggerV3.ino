@@ -114,7 +114,7 @@ SdFile rawx_dataFile;
 bool base_mode = true; // Flag to indicate if the code is in base or rover mode
 
 /*ZONE DE TEST ************************************************************************************************************************************************************/
-char rawx_filename[] = "20000000_____/_____000000.ubx"; // the b will be replaced by an r if required
+char rawx_filename[] = "20000000_____/____0000.ubx"; // the b will be replaced by an r if required
 char dirname[] = "20000000_____";
 /*FIN ZONE DE TEST ********************************************************************************************************************************************************/
 
@@ -1027,12 +1027,12 @@ void loop() // run over and over again
  /* ZONE DE TEST *****************************************************************************************************************************************************/
       
       //if (base_mode == false) rawx_filename[14] = 'r';      
-      rawx_filename[19] = hourT;
-      rawx_filename[20] = hourU;
-      rawx_filename[21] = minT;
-      rawx_filename[22] = minU;
-      rawx_filename[23] = secT;
-      rawx_filename[24] = secU;
+      rawx_filename[18] = hourT;
+      rawx_filename[19] = hourU;
+      rawx_filename[20] = minT;
+      rawx_filename[21] = minU;
+//      rawx_filename[22] = secT;
+//      rawx_filename[23] = secU;
       
       dirname[2] = yearT;
       dirname[3] = yearU;
@@ -1041,7 +1041,7 @@ void loop() // run over and over again
       dirname[6] = dayT;
       dirname[7] = dayU;
 
-//char rawx_filename[] = "20000000_____/_____000000.ubx"; // the b will be replaced by an r if required
+//char rawx_filename[] = "20000000_____/____0000.ubx"; // the b will be replaced by an r if required
 
 
       /*File fichier = sd.open("nom_station.txt");

@@ -1091,14 +1091,16 @@ void loop() // run over and over again
       }
       // if the file isn't open, pop up an error:
       else {
-        /* CORRECTION 1 */
+        /* CORRECTION 1 ************************************************************************/
         int compt = 0;
         while (compt < 5)
         {
         Serial.println("Panic!! Error opening RAWX file!");
+        Serial.print("Error with file : ");
+        Serial.println(rawx_filename);
         if (rawx_dataFile.open(rawx_filename, O_CREAT | O_WRITE | O_EXCL)) {
            Serial.print("Logging to ");
-           Serial.println(rawx_filename);
+           
            compt = 999;
         }
         compt ++;
@@ -1108,7 +1110,7 @@ void loop() // run over and over again
         Serial.println("Occurent error ! Waiting for reset...");
         }
       
-        /* FIN CORRECTION 1 */
+        /* FIN CORRECTION 1 ************************************************************************/
       
 #ifndef NoLED
 #ifdef NeoPixel
@@ -1638,8 +1640,18 @@ void loop() // run over and over again
       }
 #else
       rawx_dataFile.timestamp(T_ACCESS, (RTCyear+2000), RTCmonth, RTCday, RTChours, RTCminutes, RTCseconds);
-#endif      
+#endif    
+/* ZONE FERMETURE */
+
+//      
       rawx_dataFile.close(); // close the file
+//      File checkfile;
+//      checkfile.openNextFile();
+//      String chaine = {checkfile.name()};
+//      Serial.println(chaine);
+//      checkfile.close();
+      
+      /* FIN ZONE FERMETURE */
 #ifndef NoLED
 #ifdef NeoPixel
 #ifndef NoLogLED

@@ -1092,35 +1092,58 @@ void loop() // run over and over again
       // if the file isn't open, pop up an error:
       else {
         /* CORRECTION 1 ************************************************************************/
-        int compt = 0;
-        while (compt < 5)
-        {
-        Serial.println("Panic!! Error opening RAWX file!");
-        Serial.print("Error with file : ");
-        Serial.println(rawx_filename);
-        if (rawx_dataFile.open(rawx_filename, O_CREAT | O_WRITE | O_EXCL)) {
-           Serial.print("Logging to ");
-           
-           compt = 999;
-        }
-        compt ++;
-        }
-        if (compt == 5)
-        {
-        Serial.println("Occurent error ! Waiting for reset...");
-        }
+          Serial.println("CONFLIT !");
+          char new_name[sizeof(rawx_filename)];
+          Serial.println("intitialisation new_name");
+          for (int i = 0; i < sizeof(rawx_filename); i++)
+          {
+            new_name[i] = rawx_filename[i];
+          }
+          Serial.println("copie dans new_name");
+          new_name[14] = 'X';
+          Serial.print("mutation de new_name : ");
+          Serial.println(new_name);
+          Serial.print("rawx_filename : ");
+          Serial.println(rawx_filename);
+          File bad_file;
+          bad_file.open(rawx_filename);     
+          bad_file.rename(new_name);
+          Serial.println("renamed !");
+          bad_file.close();
+          Serial.println("renamage");
+          rawx_dataFile.open(rawx_filename, O_CREAT | O_WRITE | O_EXCL);
+          Serial.print("Logging to ");
+          Serial.println(rawx_filename);
+//        int compt = 0;
+//        while (compt < 5)
+//        {
+//        Serial.println("Panic!! Error opening RAWX file!");
+//        Serial.print("Error with file : ");
+//        Serial.println(rawx_filename);
+//        
+//        if (rawx_dataFile.open(rawx_filename, O_CREAT | O_WRITE | O_EXCL)) {
+//           Serial.print("Logging to ");
+//           Serial.println(rawx_filename);
+//           compt = 5;
+//        }
+//        compt ++;
+//        }
+//        if (compt == 5)
+//        {
+//        Serial.println("Occurent error ! Waiting for reset...");
+        
       
         /* FIN CORRECTION 1 ************************************************************************/
       
-#ifndef NoLED
-#ifdef NeoPixel
-      setLED(red); // Set the NeoPixel to red to indicate a problem
-#else
-      digitalWrite(RedLED, HIGH); // Turn the red LED on to indicate a problem
-#endif
-#endif
-        // don't do anything more:
-        while(1);
+//#ifndef NoLED
+//#ifdef NeoPixel
+//      setLED(red); // Set the NeoPixel to red to indicate a problem
+//#else
+//      digitalWrite(RedLED, HIGH); // Turn the red LED on to indicate a problem
+//#endif
+//#endif
+//        // don't do anything more:
+//        while(1);
       }
 
 #ifdef DEBUG
@@ -1645,6 +1668,9 @@ void loop() // run over and over again
 
 //      
       rawx_dataFile.close(); // close the file
+      Serial.print(" ******************* -> ");
+      Serial.println(sd.exists(rawx_filename));
+      
 //      File checkfile;
 //      checkfile.openNextFile();
 //      String chaine = {checkfile.name()};

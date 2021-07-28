@@ -811,7 +811,7 @@ void loop() // run over and over again
     
     case init: {
     /*ZONE DE TEST ***************************************************************************************************/
-    File fichier = sd.open("Station_Parameter.csv");
+    File fichier = sd.open("Android/data/a.ens.gnss4ens/sp.txt");
     String tampon = fichier.readStringUntil('\n');
     String nom = fichier.readStringUntil(';');
     INTERVAL = fichier.readStringUntil(';').toInt();
@@ -983,7 +983,7 @@ void loop() // run over and over again
     // Open the log file
     case open_file: {
       /*ZONE DE TEST ***************************************************************************************************/
-    File fichier = sd.open("Station_Parameter.csv");
+    File fichier = sd.open("Android/data/a.ens.gnss4ens/sp.txt");
     String tampon = fichier.readStringUntil('\n');
     String nom = fichier.readStringUntil(';');
     INTERVAL = fichier.readStringUntil(';').toInt();
@@ -1092,45 +1092,22 @@ void loop() // run over and over again
       // if the file isn't open, pop up an error:
       else {
         /* CORRECTION 1 ************************************************************************/
-          Serial.println("CONFLIT !");
+          Serial.println("CONFLIT, correction en cours ...");
           char new_name[sizeof(rawx_filename)];
           Serial.println("intitialisation new_name");
           for (int i = 0; i < sizeof(rawx_filename); i++)
           {
             new_name[i] = rawx_filename[i];
           }
-          Serial.println("copie dans new_name");
-          new_name[14] = 'X';
-          Serial.print("mutation de new_name : ");
-          Serial.println(new_name);
-          Serial.print("rawx_filename : ");
-          Serial.println(rawx_filename);
+          new_name[14] = '_';
           File bad_file;
           bad_file.open(rawx_filename);     
           bad_file.rename(new_name);
-          Serial.println("renamed !");
           bad_file.close();
-          Serial.println("renamage");
+          Serial.println("Correction terminée ! Nouvelle tentative ...");
           rawx_dataFile.open(rawx_filename, O_CREAT | O_WRITE | O_EXCL);
           Serial.print("Logging to ");
           Serial.println(rawx_filename);
-//        int compt = 0;
-//        while (compt < 5)
-//        {
-//        Serial.println("Panic!! Error opening RAWX file!");
-//        Serial.print("Error with file : ");
-//        Serial.println(rawx_filename);
-//        
-//        if (rawx_dataFile.open(rawx_filename, O_CREAT | O_WRITE | O_EXCL)) {
-//           Serial.print("Logging to ");
-//           Serial.println(rawx_filename);
-//           compt = 5;
-//        }
-//        compt ++;
-//        }
-//        if (compt == 5)
-//        {
-//        Serial.println("Occurent error ! Waiting for reset...");
         
       
         /* FIN CORRECTION 1 ************************************************************************/
@@ -1667,9 +1644,46 @@ void loop() // run over and over again
 /* ZONE FERMETURE */
 
 //      
+//      Serial.print("File name : ");
+//      Serial.println(rawx_dataFile.name());
+
+
+
+//        int max_characters = 12; //guess the needed characters
+//        char f_name[max_characters]; //the filename variable you won't
+//        rawx_dataFile.getName(f_name, max_characters);
+//
+//        Serial.println(f_name);
+
+//      char f_name[] = {'X','X','X','X','0','0','0','0','.','u','b','x'};
+//      Serial.println(f_name);
+//      Serial.println("defining f_name");
+//      rawx_dataFile.getName(f_name, 12);
+//      Serial.println("getting the name : ");
+//      Serial.println(f_name);
+
+//      int max_char = 12;
+//      char f_name[max_char];
+//      rawx_dataFile.getName(f_name, max_char);
+//      String filename = String(f_name);
+//      Serial.println(filename[3]);
+
+//      char* fn;
+//      rawx_dataFile.getName(fn, 12);
+//      Serial.println(fn);
       rawx_dataFile.close(); // close the file
-      Serial.print(" ******************* -> ");
-      Serial.println(sd.exists(rawx_filename));
+      
+//       File doss;
+//       doss.open(dirname);
+//       File entry = doss.openNextFile();
+//       Serial.print(entry.name());
+////       String nom = doss.getName();
+////       Serial.println(nom);
+//       doss.close();
+      
+      
+//      Serial.print(" ******************* -> ");
+//      Serial.println(sd.exists(rawx_filename));
       
 //      File checkfile;
 //      checkfile.openNextFile();
